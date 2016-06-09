@@ -7,12 +7,12 @@
   "private": true,
   "dependencies": {
     "angular": "~1.5.x",
-    "angular-route": "~1.5.x",
     "angular-loader": "~1.5.x",
     "angular-mocks": "~1.5.x",
     "html5-boilerplate": "^5.3.0",
     "bootstrap": "~3.3.6",
     "startbootstrap-sb-admin-2": "^1.0.8",
-    "angular-ui-router": "ui-router#^0.3.1"
+    "angular-ui-router": "ui-router#^0.3.1",
+    "angular-cookies": "~1.5.x"
   }
 }
