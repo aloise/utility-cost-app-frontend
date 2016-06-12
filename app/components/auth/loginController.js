@@ -2,8 +2,7 @@
  * Created by aeon on 10/06/16.
  */
 
-angular.module("Authentication", [])
-    .controller("LoginController", ["$scope", "$http", "AuthService", function ($scope, $http, AuthService, $state) {
+Application.controller("LoginController", ["$scope", "$http", "AuthService", function ($scope, $http, AuthService, $state) {
 
         AuthService.cleanCredentials();
 
@@ -15,4 +14,4 @@ angular.module("Authentication", [])
             });
         };
 
-    }]);
+ }]);

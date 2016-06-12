@@ -2,8 +2,7 @@
  * Created by aeon on 09/06/16.
  */
 
-angular.module("Authentication")
-    .factory("AuthService", ["$http", "$cookieStore", "$rootScope", "$timeout", function ($http, $cookieStore, $rootScope, $timeout) {
+Application.factory("AuthService", ["$http", "$cookieStore", "$rootScope", "$timeout", "settings", function ($http, $cookieStore, $rootScope, $timeout, settings) {
         var service = {};
 
         service.Login = function (email, password, callback) {
@@ -11,7 +10,7 @@ angular.module("Authentication")
                 "email": email,
                 "password": password
             };
-            $http.post("/api/users/auth", sendData)
+            $http.post( settings.baseURL + "/api/users/auth", sendData)
                 .success(function (data) {
                     service.SetCredentials(data.user, data.token);
                     if (callback) {
