@@ -19,12 +19,12 @@ var Application =
                 });
     }]).run(["$rootScope", "$state", "$cookieStore", "$http", function ($rootScope, $state, $cookieStore, $http) {
         $rootScope.globals = $cookieStore.get("globals") || {};
-        if ($rootScope.globals.currentUser) {
-            $http.defaults.headers.common["Auth-Token"] = $rootScope.globals.currentUser.token;
+        if ($rootScope.globals.user) {
+            $http.defaults.headers.common["Auth-Token"] = $rootScope.globals.token;
         }
     
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams, options) {
-            if (toState.name != "login" && !$rootScope.globals.currentUser) {
+            if (toState.name != "login" && !$rootScope.globals.user) {
                 event.preventDefault();
                 $state.go("login");
             }
