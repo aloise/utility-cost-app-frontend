@@ -1,13 +1,22 @@
-<form class="form-signin" name="loginForm" ng-submit="doLogin()">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" ng-required autofocus="" ng-model="loginData.email">
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-required="true" ng-model="loginData.password" >
-    <div class="checkbox">
-        <label>
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-</form>
+
+    <form class="form-signin" name="loginForm" ng-submit="doLogin()">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                    <h2 class="form-signin-heading">Please sign in</h2>
+
+                <div class="alert alert-danger" data-ng-show="error">Email or password is invalid</div>
+
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" ng-required autofocus="" ng-model="loginData.email">
+                <br>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-required="true" ng-model="loginData.password" >
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </div>
+        </div>
+    </form>

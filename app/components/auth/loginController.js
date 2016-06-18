@@ -6,11 +6,18 @@ Application.controller("LoginController", ["$scope", "$http", "AuthService", "$s
 
         AuthService.cleanCredentials();
 
+        $scope.error = false;
+
         $scope.loginData = {};
 
         $scope.doLogin = function () {
             AuthService.login($scope.loginData.email, $scope.loginData.password, function(user, token){
-                $state.go("dashboard");
+
+                if( user ) {
+                    $state.go("dashboard");
+                } else {
+                    $scope.error = true;
+                }
             });
         };
 
