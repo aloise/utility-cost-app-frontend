@@ -13,8 +13,13 @@ Application.factory("AuthService", ["$http", "$cookieStore", "$rootScope", "$tim
             $http.post( settings.baseURL + "/api/users/auth", sendData)
                 .success(function (data) {
                     service.setCredentials(data.user, data.token);
-                    if (callback) {
+                    if (typeof callback == "function") {
                         callback(data.user, data.token);
+                    }
+                }).error(function (errorData) {
+                    service.cleanCredentials();
+                    if( typeof callback == "function"){
+                        callback( null, errorData );
                     }
                 });
         };
