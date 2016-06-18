@@ -13,9 +13,31 @@ var Application =
                     controller: "LoginController"
                 })
                 .state('dashboard', {
+                    resolve : {
+                        places:  function($http, settings){
+                            // $http returns a promise for the url data
+                            return $http({method: 'GET', url: settings.baseURL + "/api/places"});
+                        },
+                        globalStats: function($http, settings){
+                            return $http({method: 'GET', url: settings.baseURL + "/api/places/stats"});
+                        }
+                    },
                     url: "/dashboard",
                     templateUrl: "pages/dashboard.html",
                     controller: "DashboardController"
+                })
+                .state('placeReview',{
+                    resolve : {
+                        place: function ($http, settings, $stateParams) {
+                            // $http returns a promise for the url data
+                            return $http({method: 'GET', url: settings.baseURL + "/api/place/" + $stateParams.placeId});
+                        }
+                    },
+                    url:"/place/:placeId",
+                    templateUrl: "pages/place.html",
+                    controller: "PlaceReviewController"
+
+
                 });
     }]).run(["$rootScope", "$state", "$cookieStore", "$http", function ($rootScope, $state, $cookieStore, $http) {
         $rootScope.globals = $cookieStore.get("globals") || {};

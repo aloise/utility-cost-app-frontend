@@ -1,5 +1,5 @@
 <div id="wrapper" >
-    {{items}}
+
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -41,12 +41,11 @@
                     <li>
                         <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
-                    <li>
-                        <a href="index.html"><i class="fa fa-anchor fa-fw"></i> Place #1</a>
+
+                    <li data-ng-repeat="place in places">
+                        <a href="#" data-ui-sref="placeReview( { placeId: place.id } )" ><i class="fa fa-anchor fa-fw"></i> {{place.title}}</a>
                     </li>
-                    <li>
-                        <a href="index.html"><i class="fa fa-anchor fa-fw"></i> Place #2</a>
-                    </li>
+
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -71,18 +70,11 @@
                                 <i class="fa fa-comments fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">26</div>
-                                <div>New Comments!</div>
+                                <div class="huge">{{stats.placesCount}}</div>
+                                <div>Places</div>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -93,18 +85,11 @@
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">12</div>
-                                <div>New Tasks!</div>
+                                <div class="huge">{{stats.totalServices}}</div>
+                                <div>Services</div>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -115,18 +100,11 @@
                                 <i class="fa fa-shopping-cart fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">124</div>
-                                <div>New Orders!</div>
+                                <div class="huge">{{stats.totalPaid}}</div>
+                                <div>Paid Total</div>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -137,18 +115,12 @@
                                 <i class="fa fa-support fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">13</div>
-                                <div>Support Tickets!</div>
+                                <div class="huge">{{stats.totalDebt}}</div>
+                                <div>Unpaid Total</div>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
+
                 </div>
             </div>
         </div>

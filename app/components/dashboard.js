@@ -1,9 +1,15 @@
-/**
- * Created by aeon on 10/06/16.
- */
+Application.controller("DashboardController", ["$scope", "$http", "$state" , "places" , "globalStats",
+        function ($scope, $http, $state, placesData, globalStatsData) {
 
-Application.controller("DashboardController", ["$scope", "$http", "$state" ,
-        function ($scope, $http, $state) {
+            $scope.places = placesData.data.places;
+
+            $scope.stats = globalStatsData.data.stats;
+            /* {
+                placesCount: 0,
+                totalServices: 0,
+                totalPaid:0,
+                totalDebt:0
+            };*/
 
         }
 ]);
