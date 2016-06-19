@@ -12,7 +12,9 @@ var Application =
                     templateUrl: "pages/login.html",
                     controller: "LoginController"
                 })
-                .state('dashboard', {
+                .state("main", {
+                    templateUrl: "pages/main.html",
+                    controller: "MainController",
                     resolve : {
                         places:  function($http, settings){
                             // $http returns a promise for the url data
@@ -21,12 +23,14 @@ var Application =
                         globalStats: function($http, settings){
                             return $http({method: 'GET', url: settings.baseURL + "/api/places/stats"});
                         }
-                    },
+                    }
+                })
+                .state('main.dashboard', {
                     url: "/dashboard",
                     templateUrl: "pages/dashboard.html",
                     controller: "DashboardController"
                 })
-                .state('placeReview',{
+                .state('main.placeReview',{
                     resolve : {
                         place: function ($http, settings, $stateParams) {
                             // $http returns a promise for the url data

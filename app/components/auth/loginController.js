@@ -14,7 +14,7 @@ Application.controller("LoginController", ["$scope", "$http", "AuthService", "$s
             AuthService.login($scope.loginData.email, $scope.loginData.password, function(user, token){
 
                 if( user ) {
-                    $state.go("dashboard");
+                    $state.go("main.dashboard");
                 } else {
                     $scope.error = true;
                 }
