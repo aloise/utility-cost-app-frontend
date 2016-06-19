@@ -11,7 +11,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-comments fa-5x"></i>
+                        <i class="fa fa-file fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">{{stats.placesCount}}</div>
@@ -26,7 +26,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-tasks fa-5x"></i>
+                        <i class="fa fa-comments fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">{{stats.totalServices}}</div>
@@ -40,11 +40,9 @@
         <div class="panel panel-yellow">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-shopping-cart fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{stats.totalPaid}}</div>
+                    <div class="col-xs-12 text-right">
+                        <div class="huge" data-ng-if="stats.totalPaid.length == 0">0</div>
+                        <div class="huge" data-ng-if="stats.totalPaid.length == 1">{{stats.totalPaid[0].amount}}&nbsp;{{stats.totalPaid[0].currency}}</div>
                         <div>Paid Total</div>
                     </div>
                 </div>
@@ -55,11 +53,9 @@
         <div class="panel panel-red">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-support fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{stats.totalDebt}}</div>
+                    <div class="col-xs-12 text-right">
+                        <div class="huge" data-ng-if="stats.totalDebt.length == 0">0</div>
+                        <div class="huge" data-ng-if="stats.totalDebt.length == 1">{{stats.totalDebt[0].amount}}&nbsp;{{stats.totalDebt[0].currency}}</div>
                         <div>Unpaid Total</div>
                     </div>
                 </div>
