@@ -1,5 +1,9 @@
 /* app css stylesheet */
 
+body{
+  font-family: "Open Sans";
+}
+
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
@@ -34,3 +38,19 @@
   padding: 15px;
   margin: 0 auto;
 }
+
+.bill-cell{
+  margin-bottom: 3px;
+  padding: 2px 5px;
+}
+
+.bill-cell .label{
+  display: inline-block;
+  line-height: inherit;
+  vertical-align: middle;
+}
+
+.unpaid-cell{
+  background-color: #ef9b98;
+}
+

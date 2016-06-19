@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1>{{::place.title}}</h1>
+        <span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;{{::place.country}}, {{::place.state}}, {{::place.city}}, {{::place.address}} - {{::place.zip}}</span>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<table class="table table-hover table-condensed">
+    <thead>
+    <tr>
+        <th>Month</th>
+        <th ng-repeat="service in services">{{::service.title}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="(month, billsServices) in monthlyGroupedBills">
+        <td>{{::month}}</td>
+        <td ng-repeat="billsForService in billsServices">
+            <div class="bill-cell" ng-class="{'unpaid-cell':!bill.paid}" ng-repeat="bill in billsForService">
+                {{::bill.readout}}/{{::bill.value.amount}}&nbsp;{{::bill.value.currency}} <span class="label label-danger" data-ng-if="!bill.paid">Unpaid</span>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
