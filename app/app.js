@@ -4,7 +4,7 @@
 var Application =
     angular.
         module('myApp', [ 'ui.router', "ngCookies" ]).
-        config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
+        config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider, $locationProvider) {
             $urlRouterProvider.otherwise("/login");
             $stateProvider
                 .state('login', {
@@ -30,7 +30,30 @@ var Application =
                     resolve : {
                         place: function ($http, settings, $stateParams) {
                             // $http returns a promise for the url data
-                            return $http({method: 'GET', url: settings.baseURL + "/api/place/" + $stateParams.placeId});
+                            return $http({method: 'GET', url: settings.baseURL + "/api/places/" + $stateParams.placeId});
+                        },
+                        services: function ($http, settings, $stateParams) {
+                            // $http returns a promise for the url data
+                            return $http({
+                                method: 'GET',
+                                url: settings.baseURL + "/api/places/" + $stateParams.placeId + "/services",
+                                params: {includeInactive: 1}
+                            });
+                        },
+                        bills: function ($http, settings, $stateParams) {
+                            // $http returns a promise for the url data
+                            var date = new Date();
+                            var year = date.getFullYear();
+                            var dateFrom = new Date(year, 0, 1);
+                            var dateTo = new Date(year, 11, 31, 23, 59);
+                            return $http({
+                                method: 'GET',
+                                url: settings.baseURL + "/api/places/" + $stateParams.placeId + "/bills",
+                                params: {
+                                    fromDate: dateFrom,
+                                    toDate: dateTo
+                                }
+                            });
                         }
                     },
                     url:"/place/:placeId",
@@ -44,12 +67,12 @@ var Application =
         if ($rootScope.globals.user) {
             $http.defaults.headers.common["Auth-Token"] = $rootScope.globals.token;
         }
-    
+
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams, options) {
             if (toState.name != "login" && !$rootScope.globals.user) {
                 event.preventDefault();
                 $state.go("login");
             }
         });
-    
+
     }]);
