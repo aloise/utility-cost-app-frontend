@@ -54,3 +54,6 @@ body{
   background-color: #ef9b98;
 }
 
+.year-bills {}
+  .year-bills a.add-bills { visibility: hidden;}
+    .year-bills tr:hover a.add-bills { visibility: visible;}

@@ -46,8 +46,7 @@ var Application =
                         },
                         bills: function ($http, settings, $stateParams) {
                             // $http returns a promise for the url data
-                            var date = new Date();
-                            var year = date.getFullYear();
+                            var year = $stateParams.year ? parseInt( $stateParams.year ) : new Date().getFullYear();
                             var dateFrom = new Date(year, 0, 1);
                             var dateTo = new Date(year, 11, 31, 23, 59);
                             return $http({
@@ -60,7 +59,7 @@ var Application =
                             });
                         }
                     },
-                    url:"/place/:placeId",
+                    url:"/place/:placeId/:year?",
                     templateUrl: "pages/place.html",
                     controller: "PlaceReviewController"
 
