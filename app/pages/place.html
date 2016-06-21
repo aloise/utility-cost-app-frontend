@@ -60,11 +60,11 @@
                         </td>
                         <td>
                             <input class="form-control" type="number" placeholder="readout" ng-disabled="service.payed" data-ng-model="service.readout">
-                            <small>Latest readout: {{::service.lastPayedBill.readout}}</small>
+                            <small data-ng-if="service.lastPayedBill" >Latest readout: {{service.lastPayedBill.readout}}</small>
                         </td>
                         <td>
                             <input class="form-control" type="number" placeholder="readout" ng-disabled="service.payed" data-ng-model="service.value.amount">
-                            <small>payment:{{::service.lastPayedBill.value.amount}}</small>
+                            <small data-ng-if="service.lastPayedBill" >payment:{{service.lastPayedBill.value.amount}}</small>
                         </td>
                     </tr>
                     </tbody>

@@ -32,8 +32,6 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
                 return new Date(b.created).getFullYear();
             })).sort();
 
-            console.log($scope.availableYears);
-
             var groupedBills = _.groupBy($scope.bills, function (b) {
                 var created = new Date(b.created);
                 return getMonthName( created );
@@ -60,24 +58,25 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
         function addBillsForMonth( month ) {
             var billsForMonth = _.findWhere($scope.monthlyGroupedBills, {"key": month + "/" + $scope.currentYear});
             var servicesToPay = _.indexBy(_.map($scope.services, function(s){
-                s.payed = false;
-                s.readout = null;
-                s.value = {};
+                var service = angular.copy(s);
+                service.payed = false;
+                service.readout = null;
+                service.value = {};
 
-                var startOfMonth = moment().startOf('month');
+                var startOfMonth = moment($scope.currentYear+"-"+month, "YYYY-MM");
                 var lastPayedBillForService = _.last(
                     _.sortBy(
                         _.filter(
-                            _.where($scope.bills, {"serviceId": s.id}), function (bill) {
+                            _.where($scope.bills, {"serviceId": service.id}), function (bill) {
                                 return moment(bill.created).isBefore(startOfMonth);
                             })
                         , "created")
                 );
                 if(lastPayedBillForService){
-                    s.lastPayedBill = lastPayedBillForService;
+                    service.lastPayedBill = lastPayedBillForService;
                 }
 
-                return s;
+                return service;
             }), "id");
 
             if(billsForMonth && !_.isEmpty(billsForMonth.value)){
