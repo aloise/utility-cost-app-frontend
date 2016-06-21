@@ -50,14 +50,35 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
         }
 
         function addBillsForMonth( month ) {
+            var billsForMonth = _.findWhere($scope.monthlyGroupedBills, {"month": month});
+            var servicesToPay = _.indexBy(_.map($scope.services, function(s){
+                s.payed = false;
+                s.readout = null;
+                s.value = {};
+                return s;
+            }), "id");
+
+            if(billsForMonth && !_.isEmpty(billsForMonth.value)){
+                _.forEach(billsForMonth.value, function(bills){
+                    var lastBillInMonth = _.last(bills);
+                    if(lastBillInMonth && servicesToPay[lastBillInMonth.serviceId]){
+                        servicesToPay[lastBillInMonth.serviceId].payed = true;
+                        servicesToPay[lastBillInMonth.serviceId].readout = lastBillInMonth.readout;
+                        servicesToPay[lastBillInMonth.serviceId].value = lastBillInMonth.value;
+
+                    }
+                });
+            }
+
             $scope.addBillsForMonthData = {
-                month: month
+                month: month,
+                services: _.values(servicesToPay)
             };
+
             $timeout(function(){
                 $("#addBillsForMonthModal").modal("show")
-
             });
-        };
+        }
 
         transformBills();
 

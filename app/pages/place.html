@@ -8,28 +8,28 @@
 </div>
 <table class="table table-hover table-condensed year-bills">
     <thead>
-        <tr>
-            <th colspan="2">Month</th>
-            <th ng-repeat="service in services" >{{::service.title}}</th>
-        </tr>
+    <tr>
+        <th colspan="2">Month</th>
+        <th ng-repeat="service in services">{{::service.title}}</th>
+    </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="monthBillsServices in monthlyGroupedBills">
-            <td>{{::monthBillsServices.key}}</td>
-            <td><a href="" data-ng-click="addBillsForMonth(monthBillsServices.month)" class="add-bills" ><i class="glyphicon glyphicon-plus-sign"></i></a></td>
-            <td ng-repeat="billsForService in monthBillsServices.value">
-                <table style="width:100%">
-                    <tr ng-repeat="bill in billsForService" >
-                        <td style="width:6em">
-                            {{::bill.readout}}
-                        </td>
-                        <td>
-                            <span class="label" data-ng-class="{true:'label-success', false:'label-danger' }[!!bill.paid]">{{::bill.value.amount}}&nbsp;{{::bill.value.currency}}</span>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+    <tr ng-repeat="monthBillsServices in monthlyGroupedBills">
+        <td>{{::monthBillsServices.key}}</td>
+        <td><a href="" data-ng-click="addBillsForMonth(monthBillsServices.month)" class="add-bills"><i class="glyphicon glyphicon-plus-sign"></i></a></td>
+        <td ng-repeat="billsForService in monthBillsServices.value">
+            <table style="width:100%">
+                <tr ng-repeat="bill in billsForService">
+                    <td style="width:6em">
+                        {{::bill.readout}}
+                    </td>
+                    <td>
+                        <span class="label" data-ng-class="{true:'label-success', false:'label-danger' }[!!bill.paid]">{{::bill.value.amount}}&nbsp;{{::bill.value.currency}}</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
     </tbody>
 </table>
 
@@ -42,7 +42,28 @@
                 <h4 class="modal-title">Add Bills for {{ monthLabel(addBillsForMonthData.month, currentYear ) }}</h4>
             </div>
             <div class="modal-body">
-                <p>One fine body&hellip;</p>
+                <table class="table table-responsive">
+                    <thead>
+                    <tr>
+                        <td>Service</td>
+                        <td>Readout</td>
+                        <td>Amount to Pay</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="service in addBillsForMonthData.services">
+                        <td style="vertical-align: middle">
+                            {{::service.title}}
+                        </td>
+                        <td>
+                            <input class="form-control" type="number" placeholder="readout" ng-disabled="service.payed" data-ng-model="service.readout">
+                        </td>
+                        <td>
+                            <input class="form-control" type="number" placeholder="readout" ng-disabled="service.payed" data-ng-model="service.value.amount">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
