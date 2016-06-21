@@ -64,14 +64,13 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
                 service.value = {};
 
                 var startOfMonth = moment($scope.currentYear+"-"+month, "YYYY-MM");
-                var lastPayedBillForService = _.last(
-                    _.sortBy(
-                        _.filter(
-                            _.where($scope.bills, {"serviceId": service.id}), function (bill) {
-                                return moment(bill.created).isBefore(startOfMonth);
-                            })
-                        , "created")
-                );
+
+                var lastPayedBillForService = _.chain($scope.bills)
+                    .where({"serviceId": service.id})
+                    .filter(function (bill) {
+                        return moment(bill.created).isBefore(startOfMonth);
+                    })
+                    .sortBy("created").last().value();
                 if(lastPayedBillForService){
                     service.lastPayedBill = lastPayedBillForService;
                 }
