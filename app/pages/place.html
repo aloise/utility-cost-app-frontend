@@ -6,6 +6,9 @@
     </div>
     <!-- /.col-lg-12 -->
 </div>
+<div class="btn-group" role="group" data-ng-if="availableYears.length>0">
+    <button data-ng-repeat="year in availableYears" type="button" class="btn btn-default" data-ng-click="selectYear(year)">{{::year}}</button>
+</div>
 <table class="table table-hover table-condensed year-bills">
     <thead>
     <tr>

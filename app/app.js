@@ -33,11 +33,9 @@ var Application =
                 .state('main.placeReview',{
                     resolve : {
                         place: function ($http, settings, $stateParams) {
-                            // $http returns a promise for the url data
                             return $http({method: 'GET', url: settings.baseURL + "/api/places/" + $stateParams.placeId});
                         },
                         services: function ($http, settings, $stateParams) {
-                            // $http returns a promise for the url data
                             return $http({
                                 method: 'GET',
                                 url: settings.baseURL + "/api/places/" + $stateParams.placeId + "/services",
@@ -45,15 +43,11 @@ var Application =
                             });
                         },
                         bills: function ($http, settings, $stateParams) {
-                            // $http returns a promise for the url data
-                            var year = $stateParams.year ? parseInt( $stateParams.year ) : new Date().getFullYear();
-                            var dateFrom = new Date(year, 0, 1);
-                            var dateTo = new Date(year, 11, 31, 23, 59);
+                            var dateTo = new Date();
                             return $http({
                                 method: 'GET',
                                 url: settings.baseURL + "/api/places/" + $stateParams.placeId + "/bills",
                                 params: {
-                                    fromDate: dateFrom,
                                     toDate: dateTo
                                 }
                             });

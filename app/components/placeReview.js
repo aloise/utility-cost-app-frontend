@@ -12,11 +12,12 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
 
         $scope.monthlyGroupedBills = [];
         
-        $scope.currentYear = $stateParams.year ? parseInt($stateParams.year) : new Date().getFullYear()
+        $scope.currentYear = $stateParams.year ? parseInt($stateParams.year) : new Date().getFullYear();
+
+        $scope.availableYears = [];
 
         $scope.addBillsForMonthData = {
             month: null
-
         };
 
 
@@ -26,6 +27,13 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
         };
 
         function transformBills() {
+
+            $scope.availableYears = _.uniq(_.map($scope.bills, function (b) {
+                return new Date(b.created).getFullYear();
+            })).sort();
+
+            console.log($scope.availableYears);
+
             var groupedBills = _.groupBy($scope.bills, function (b) {
                 var created = new Date(b.created);
                 return getMonthName( created );
@@ -85,6 +93,11 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
         $scope.addBillsForMonth = addBillsForMonth;
         $scope.monthLabel = function( month, year){
             return month && year ? moment(month.toString(), "MM").format("MMM")+", " + year : "";
+        }
+
+        $scope.selectYear = function(year){
+            $scope.currentYear = year;
+            transformBills();
         }
     }
 ]);
