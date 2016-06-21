@@ -58,11 +58,25 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
         }
 
         function addBillsForMonth( month ) {
-            var billsForMonth = _.findWhere($scope.monthlyGroupedBills, {"month": month});
+            var billsForMonth = _.findWhere($scope.monthlyGroupedBills, {"key": month + "/" + $scope.currentYear});
             var servicesToPay = _.indexBy(_.map($scope.services, function(s){
                 s.payed = false;
                 s.readout = null;
                 s.value = {};
+
+                var startOfMonth = moment().startOf('month');
+                var lastPayedBillForService = _.last(
+                    _.sortBy(
+                        _.filter(
+                            _.where($scope.bills, {"serviceId": s.id}), function (bill) {
+                                return moment(bill.created).isBefore(startOfMonth);
+                            })
+                        , "created")
+                );
+                if(lastPayedBillForService){
+                    s.lastPayedBill = lastPayedBillForService;
+                }
+
                 return s;
             }), "id");
 
