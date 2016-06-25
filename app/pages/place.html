@@ -59,12 +59,20 @@
                             {{::service.title}}
                         </td>
                         <td>
-                            <input class="form-control" type="number" placeholder="readout" ng-disabled="service.payed" data-ng-model="service.readout">
-                            <small data-ng-if="service.lastPayedBill" >Latest readout: {{service.lastPayedBill.readout}}</small>
+                            <div data-ng-if="service.rateData.ProgressiveRateData">
+                                <input class="form-control" type="number" placeholder="Readout" ng-disabled="service.payed" data-ng-model="service.readout">
+                                <small data-ng-if="service.lastPayedBill" >Latest readout: {{service.lastPayedBill.readout}}</small>
+                            </div>
                         </td>
                         <td>
-                            <input class="form-control" type="number" placeholder="readout" ng-disabled="service.payed" data-ng-model="service.value.amount">
-                            <small data-ng-if="service.lastPayedBill" >payment:{{service.lastPayedBill.value.amount}}</small>
+                            <div data-ng-if="service.rateData.ManualPriceRateData || service.rateData.FixedPriceRateData">
+                                <input class="form-control" type="number" placeholder="Amount" ng-disabled="service.payed" data-ng-model="service.value.amount">
+                            </div>
+                            <div data-ng-if="service.rateData.ProgressiveRateData">
+                                <input class="form-control" readonly="readonly" value="Auto Calculated">
+                            </div>
+
+
                         </td>
                     </tr>
                     </tbody>
