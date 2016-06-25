@@ -1,9 +1,8 @@
 /**
  * Created by aeon on 19/06/16.
  */
-Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$stateParams", "$timeout", "place", "services", "bills",
-    function ($scope, $http, $state, $stateParams, $timeout, placeData, servicesData, billsData) {
-
+Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$stateParams", "$timeout", "place", "services", "bills", "settings",
+    function ($scope, $http, $state, $stateParams, $timeout, placeData, servicesData, billsData, settings) {
         $scope.place = placeData.data.place;
 
         $scope.services = servicesData.data.services;
@@ -24,7 +23,7 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
 
         function getMonthName( created ) {
             return (created.getMonth() + 1) + "/" + created.getFullYear();
-        };
+        }
 
         function transformBills() {
 
@@ -62,6 +61,7 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
                 service.payed = false;
                 service.readout = null;
                 service.value = {};
+                service.month = month;
 
                 var startOfMonth = moment($scope.currentYear+"-"+month, "YYYY-MM");
 
@@ -96,7 +96,7 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
             };
 
             $timeout(function(){
-                $("#addBillsForMonthModal").modal("show")
+                $("#addBillsForMonthModal").modal("show");
             });
         }
 
@@ -105,11 +105,39 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
         $scope.addBillsForMonth = addBillsForMonth;
         $scope.monthLabel = function( month, year){
             return month && year ? moment(month.toString(), "MM").format("MMM")+", " + year : "";
-        }
+        };
 
         $scope.selectYear = function(year){
             $scope.currentYear = year;
             transformBills();
-        }
+        };
+
+        $scope.saveBills  =function(serviceBills){
+            _.forEach(serviceBills, function(serviceBill){
+                var startOfMonth = moment($scope.currentYear+"-"+serviceBill.month, "YYYY-MM").toDate();
+
+                var billData = {
+                    placeId: $scope.place.id,
+                    serviceId: serviceBill.id,
+                    serviceRateId: serviceBill.serviceRate.id,
+                    readout: serviceBill.readout || 0,
+                    value: _.extend({amount:0, currency:"USD"}, serviceBill.value),
+                    created: startOfMonth,
+                    isDeleted: false
+                };
+
+                $http.post(settings.baseURL + "/api/bills/", billData, {
+                    params: {
+                        updateAmount: serviceBill.serviceRate.rateData.ManualPriceRateData ? 0 : 1
+                    }
+                }).success(function (data) {
+                    console.log(data);
+                    if (data.status == "ok") {
+                        $scope.bills.push(data.bill);
+                        transformBills();
+                    }
+                });
+            });
+        };
     }
 ]);
