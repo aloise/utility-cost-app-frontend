@@ -42,7 +42,11 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
                 var monthlyBills = groupedBills[monthName];
                 var billsForService = _.groupBy(monthlyBills, "serviceId");
                 var grouped = _.map($scope.services, function (service) {
-                    return billsForService[service.id] || [];
+                    var bills = billsForService[service.id] || [];
+                    _.forEach(bills, function(b){
+                        b.service = service;
+                    });
+                    return bills;
                 });
                 months.push( {
                     month: i,

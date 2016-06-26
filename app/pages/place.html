@@ -23,7 +23,7 @@
         <td ng-repeat="billsForService in monthBillsServices.value">
             <table style="width:100%">
                 <tr ng-repeat="bill in billsForService">
-                    <td style="width:6em">
+                    <td style="width:6em" data-ng-if="bill.service.serviceRate.rateData.ProgressiveRateData">
                         {{::bill.readout}}
                     </td>
                     <td>
@@ -44,44 +44,49 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Add Bills for {{ monthLabel(addBillsForMonthData.month, currentYear ) }}</h4>
             </div>
-            <div class="modal-body">
-                <table class="table table-responsive">
-                    <thead>
-                    <tr>
-                        <td>Service</td>
-                        <td>Readout</td>
-                        <td>Amount to Pay</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-ng-repeat="service in addBillsForMonthData.services">
-                        <td style="vertical-align: middle">
-                            {{::service.title}}
-                        </td>
-                        <td>
-                            <div data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
-                                <input class="form-control" type="number" placeholder="Readout" ng-disabled="service.payed" data-ng-model="service.readout">
-                                <small data-ng-if="service.lastPayedBill" >Latest readout: {{service.lastPayedBill.readout}}</small>
-                            </div>
-                        </td>
-                        <td>
-                            <div data-ng-if="service.serviceRate.rateData.ManualPriceRateData || service.serviceRate.rateData.FixedPriceRateData">
-                                <input class="form-control" type="number" placeholder="Amount" ng-disabled="service.payed" data-ng-model="service.value.amount">
-                            </div>
-                            <div data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
-                                <input class="form-control" readonly="readonly" value="Auto Calculated">
-                            </div>
+            <form novalidate class="form" ng-submit="saveBills(addBillsForMonthData.services)" name="addBillForm">
+                <div class="modal-body">
+
+                    <table class="table table-responsive">
+                        <thead>
+                        <tr>
+                            <td>Service</td>
+                            <td>Readout</td>
+                            <td>Amount to Pay</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="service in addBillsForMonthData.services">
+                            <td style="vertical-align: middle">
+                                {{::service.title}}
+                            </td>
+                            <td>
+                                <div data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
+                                    <input class="form-control" type="number" placeholder="Readout" min="{{service.lastPayedBill.readout || 0}}" ng-required="true" ng-disabled="service.payed"
+                                           data-ng-model="service.readout" name="{{::service.title}}Readout" required>
+                                    <small data-ng-if="service.lastPayedBill">Latest readout: {{service.lastPayedBill.readout}}</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div data-ng-if="service.serviceRate.rateData.ManualPriceRateData || service.serviceRate.rateData.FixedPriceRateData">
+                                    <input class="form-control" type="number" placeholder="Amount" ng-disabled="service.payed" data-ng-model="service.value.amount" ng-required="true" min="0"
+                                           name="{{::service.title}}Amount">
+                                </div>
+                                <div data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
+                                    <input class="form-control" readonly="readonly" value="Auto Calculated">
+                                </div>
 
 
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-ng-click="saveBills(addBillsForMonthData.services)">Save changes</button>
-            </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save changes" data-ng-disabled="addBillForm.$invalid">
+                </div>
+            </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
