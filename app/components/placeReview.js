@@ -142,6 +142,7 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
                     }
                 });
             });
+            $("#addBillsForMonthModal").modal("hide");
         };
     }
 ]);

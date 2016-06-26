@@ -68,12 +68,15 @@
                                 </div>
                             </td>
                             <td>
-                                <div data-ng-if="service.serviceRate.rateData.ManualPriceRateData || service.serviceRate.rateData.FixedPriceRateData">
+                                <div data-ng-if="service.serviceRate.rateData.ManualPriceRateData">
                                     <input class="form-control" type="number" placeholder="Amount" ng-disabled="service.payed" data-ng-model="service.value.amount" ng-required="true" min="0"
                                            name="{{::service.title}}Amount">
                                 </div>
                                 <div data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
                                     <input class="form-control" readonly="readonly" value="Auto Calculated">
+                                </div>
+                                <div data-ng-if="service.serviceRate.rateData.FixedPriceRateData">
+                                    Fixed amount: {{::service.serviceRate.rateData.FixedPriceRateData.amountPerMonth.amount}}&nbsp;{{::service.serviceRate.rateData.FixedPriceRateData.amountPerMonth.currency}}
                                 </div>
 
 
