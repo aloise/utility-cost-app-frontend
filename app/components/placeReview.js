@@ -3,6 +3,8 @@
  */
 Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$stateParams", "$timeout", "place", "services", "bills", "settings",
     function ($scope, $http, $state, $stateParams, $timeout, placeData, servicesData, billsData, settings) {
+
+        console.log("PlaceReviewController", placeData);
         $scope.place = placeData.data.place;
 
         $scope.services = servicesData.data.services;

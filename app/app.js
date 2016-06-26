@@ -13,6 +13,7 @@ var Application =
                     controller: "LoginController"
                 })
                 .state("main", {
+                    abstract: true,
                     templateUrl: "pages/main.html",
                     controller: "MainController",
                     resolve : {
@@ -30,7 +31,9 @@ var Application =
                     templateUrl: "pages/dashboard.html",
                     controller: "DashboardController"
                 })
-                .state('main.placeReview',{
+                .state('main.place',{
+                    abstract: true,
+                    template: "<ui-view/>",
                     resolve : {
                         place: function ($http, settings, $stateParams) {
                             return $http({method: 'GET', url: settings.baseURL + "/api/places/" + $stateParams.placeId});
@@ -41,7 +44,16 @@ var Application =
                                 url: settings.baseURL + "/api/places/" + $stateParams.placeId + "/services",
                                 params: {includeInactive: 1}
                             });
-                        },
+                        }
+                    },
+                    url:"/place/:placeId"
+
+                })
+                .state('main.place.review',{
+                    url:"/review/:year?",
+                    templateUrl: "pages/place.html",
+                    controller: "PlaceReviewController",
+                    resolve: {
                         bills: function ($http, settings, $stateParams) {
                             var dateTo = new Date();
                             return $http({
@@ -52,12 +64,12 @@ var Application =
                                 }
                             });
                         }
-                    },
-                    url:"/place/:placeId/:year?",
-                    templateUrl: "pages/place.html",
-                    controller: "PlaceReviewController"
-
-
+                    }
+                })
+                .state('main.place.services',{
+                    url:"/services",
+                    templateUrl: "pages/serviceEdit.html",
+                    controller: "ServiceEditController"
                 });
     }]).run(["$rootScope", "$state", "$cookieStore", "$http", function ($rootScope, $state, $cookieStore, $http) {
         $rootScope.globals = $cookieStore.get("globals") || {};

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1>{{::place.title}}</h1>
+        <h1>{{::place.title}} <span data-ng-click="" class="fa fa-cog fa-fw pull-right" data-ui-sref="main.place.services( { placeId: place.id } )">&nbsp;</span></h1>
         <span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;{{::place.country}}, {{::place.state}}, {{::place.city}}, {{::place.address}} - {{::place.zip}}</span>
         <hr>
     </div>
