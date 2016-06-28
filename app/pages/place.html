@@ -1,14 +1,19 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1>{{::place.title}} <span data-ng-click="" class="fa fa-cog fa-fw pull-right" data-ui-sref="main.place.services( { placeId: place.id } )">&nbsp;</span></h1>
+        <h2>
+            <a data-ui-sref="main.place.review( { placeId: place.id } )"  >{{::place.title}}</a>
+            <a data-ng-click="" class="fa fa-cog fa-fw pull-right" data-ui-sref="main.place.services( { placeId: place.id } )"></a>
+        </h2>
         <span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;{{::place.country}}, {{::place.state}}, {{::place.city}}, {{::place.address}} - {{::place.zip}}</span>
         <hr>
     </div>
     <!-- /.col-lg-12 -->
 </div>
 <div class="btn-group" role="group" data-ng-if="availableYears.length>0">
-    <button data-ng-class="{'active':year==currentYear}" data-ng-repeat="year in availableYears" type="button" class="btn btn-default" data-ng-click="selectYear(year)">{{::year}}</button>
+    <a data-ng-class="{'active':year==currentYear}" data-ng-repeat="year in availableYears" type="button" class="btn btn-default" data-ui-sref="main.place.review( {placeId: place.id, year : year } )" >{{::year}}</a>
 </div>
+<hr data-ng-if="availableYears.length>0">
+
 <table class="table table-hover table-condensed year-bills">
     <thead>
     <tr>

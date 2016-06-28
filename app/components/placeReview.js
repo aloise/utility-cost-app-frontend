@@ -112,11 +112,6 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
             return month && year ? moment(month.toString(), "MM").format("MMM")+", " + year : "";
         };
 
-        $scope.selectYear = function(year){
-            $scope.currentYear = year;
-            transformBills();
-        };
-
         $scope.saveBills  =function(serviceBills){
             _.forEach(serviceBills, function(serviceBill){
                 var startOfMonth = moment($scope.currentYear+"-"+serviceBill.month, "YYYY-MM").toDate();
