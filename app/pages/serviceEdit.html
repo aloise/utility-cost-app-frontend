@@ -1,47 +1,56 @@
 <div class="row">
     <div class="col-lg-12">
         <h2>
-            <a data-ui-sref="main.place.review( { placeId: place.id } )"  >{{::place.title}}</a> &raquo; Active Services
-         </h2>
+            <a data-ui-sref="main.place.review( { placeId: place.id } )"  >{{::place.title}}</a> &raquo;
+            <a data-ui-sref="main.place.services( { placeId: place.id } )"  >Active Services</a> &raquo;
+            {{::service.title }}
+        </h2>
 
         <span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;{{::place.country}}, {{::place.state}}, {{::place.city}}, {{::place.address}} - {{::place.zip}}</span>
         <hr>
     </div>
 </div>
 
-<table class="table table-hover table-condensed year-bills">
-    <thead>
-    <tr>
-        <th colspan="2">Title</th>
-        <th>Description</th>
-        <th>Active Rate Info</th>
-        <th>Active Since</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="service in services">
-        <td>{{::service.title}}</td>
-        <td><a href="" data-ng-click="addBillsForMonth(monthBillsServices.month)" class="add-bills"><i class="fa fa-wrench"></i></a></td>
-        <td>{{::service.description}}</td>
-        <td data-ng-if="service.serviceRate.rateData.ManualPriceRateData">Manual price input</td>
-        <td data-ng-if="service.serviceRate.rateData.FixedPriceRateData">Fixed amount, monthly price: {{::service.serviceRate.rateData.FixedPriceRateData.amountPerMonth.amount}}&nbsp;{{::service.serviceRate.rateData.FixedPriceRateData.amountPerMonth.currency}}</td>
-        <td data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
-            <div ng-if="service.serviceRate.rateData.ProgressiveRateData.rates.length==0">
-                Rate is: {{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.amount}}&nbsp;{{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.currency}} per unit
-                consumption
-            </div>
-            <div ng-if="service.serviceRate.rateData.ProgressiveRateData.rates.length>0" >
-                <div data-ng-repeat="ratePrice in service.zippedRates" >
-                    <div data-ng-if="$index==0">Up to {{::ratePrice.rate}} - {{::ratePrice.price.amount}}&nbsp;{{::ratePrice.price.currency}} per unit consumption</div>
-                    <div data-ng-if="$index>0" >From {{::ratePrice.previousRate.rate}} to {{::ratePrice.rate}} - {{::ratePrice.price.amount}}&nbsp;{{::ratePrice.price.currency}}
-                        per unit consumption
-                    </div>
-                </div>
-                Exceeding amount rate is: {{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.amount}}&nbsp;{{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.currency}}
-                per unit consumption
-            </div>
-        </td>
-        <td>{{::service.serviceRate.activeFromDate|date:"short"}}</td>
-    </tr>
-    </tbody>
-</table>
+
+<form>
+    <div class="form-group">
+        <label>Title</label>
+        <input type="text" data-ng-model="service.title" class="form-control" placeholder="Title">
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea data-ng-model="service.description" class="form-control" placeholder="Description" rows="5"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Rate Type</label>
+        <select class="form-control" data-ng-model="serviceRateType" data-ng-options="rate.value as rate.label for rate in rateTypes" ></select>
+    </div>
+    <div class="form-group" data-ng-if="serviceRateType == 'FixedPriceRateData'">
+        <label>Fixed Rate Amount</label>
+        <div>
+            <input type="number" data-ng-model="serviceRateData.amountPerMonth.amount" class="form-control" placeholder="Amount" >
+        </div>
+    </div>
+    <div class="form-group" data-ng-if="serviceRateType == 'ProgressiveRateData'">
+        <label>Rate Info</label>
+        <table>
+            <tr data-ng-repeat="rateData in serviceRateData.rates">
+                <th><input data-ng-model="rateData.rate" placeholder="Unit of consumption limit"></th>
+                <td><input data-ng-model="rateData.price.amount" placeholder="Price per unit"></td>
+            </tr>
+            <tr class="table-row-exceeding-price">
+                <th>Exceeding Price</th>
+                <td><input data-ng-model="serviceRateData.exceedingPrice.amount" placeholder="amount"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"> Check me out
+        </label>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+

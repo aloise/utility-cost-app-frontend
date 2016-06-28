@@ -1,31 +1,23 @@
+
 /**
- * Created by aeon on 26/06/16.
+ * Created by aloise on 28/06/16.
  */
 Application.controller("ServiceEditController", ["$scope", "$http", "$state", "$stateParams", "$timeout", "place", "services", "settings",
     function ($scope, $http, $state, $stateParams, $timeout, placeData, servicesData, settings) {
 
         $scope.place = placeData.data.place;
 
-        $scope.services = servicesData.data.services;
+        $scope.rateTypes = [
+            { value: "ManualPriceRateData", label: "Arbitrary price every month"  },
+            { value: "FixedPriceRateData", label: "Fixed price every month"  },
+            { value: "ProgressiveRateData" , label: "Progressive rate cost"}
+        ];
 
-        function transformServices(){
-            $scope.services = _.map($scope.services, function (service) {
-                    if (service.serviceRate.rateData.ProgressiveRateData) {
-                        var previousRate = null;
-                        service.zippedRates = _.chain(service.serviceRate.rateData.ProgressiveRateData.rates).zip(service.serviceRate.rateData.ProgressiveRateData.prices).map(function(z){
-                            var result = {rate:z[0], price:z[1]};
-                            if(previousRate){
-                                result.previousRate = previousRate;
-                            }
-                            previousRate = _.omit(result,"previousRate");
-                            return result;
-                        }).value();
-                    }
-                    return service;
-                }
-            );
-        }
 
-        transformServices();
+        $scope.service = angular.copy( _.findWhere( servicesData.data.services, { id: parseInt( $stateParams.serviceId ) } ) );
+        $scope.serviceRateType = _.keys( $scope.service.rateData )[0];
+        $scope.serviceRateData = {  };
 
-    }]);
+
+
+}]);

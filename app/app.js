@@ -68,6 +68,11 @@ var Application =
                 })
                 .state('main.place.services',{
                     url:"/services",
+                    templateUrl: "pages/services.html",
+                    controller: "ServicesController"
+                })
+                .state('main.place.serviceEdit',{
+                    url:"/services/:serviceId",
                     templateUrl: "pages/serviceEdit.html",
                     controller: "ServiceEditController"
                 });
