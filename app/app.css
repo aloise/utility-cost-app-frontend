@@ -57,3 +57,26 @@ body{
 .year-bills {}
   .year-bills a.add-bills { visibility: hidden;}
     .year-bills tr:hover a.add-bills { visibility: visible;}
+
+
+/* form validation styles */
+
+input.ng-invalid.ng-dirty {
+  border: 1px solid red;
+  animation-name: errorFieldAnimation;
+  animation-duration: 0.5s;
+  animation-iteration-count: 2;
+  animation-direction: alternate;
+  animation-timing-function: ease-out;
+
+}
+
+@keyframes errorFieldAnimation {
+  from { box-shadow: 0px 0px 0px red;}
+  to { box-shadow: 0px 0px 7px red; }
+
+}
+
+input.ng-valid {
+  border: 1px solid green;
+}
