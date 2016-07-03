@@ -8,43 +8,53 @@
         <hr>
     </div>
 </div>
-
-<table class="table table-hover table-condensed year-bills" data-ng-if="services.length">
-    <thead>
-    <tr>
-        <th colspan="2">Title</th>
-        <th>Description</th>
-        <th>Active Rate Info</th>
-        <th>Active Since</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="service in services">
-        <td>{{::service.title}}</td>
-        <td><a href="" data-ui-sref="main.place.serviceEdit( { placeId: place.id, serviceId: service.id } )" class="add-bills pull-left"><i class="fa fa-wrench"></i></a></td>
-        <td>{{::service.description}}</td>
-        <td data-ng-if="service.serviceRate.rateData.ManualPriceRateData">Manual price input</td>
-        <td data-ng-if="service.serviceRate.rateData.FixedPriceRateData">Fixed amount, monthly price: {{::service.serviceRate.rateData.FixedPriceRateData.amountPerMonth.amount}}&nbsp;{{::service.serviceRate.rateData.FixedPriceRateData.amountPerMonth.currency}}</td>
-        <td data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
-            <div ng-if="service.serviceRate.rateData.ProgressiveRateData.rates.length==0">
-                Rate is: {{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.amount}}&nbsp;{{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.currency}} per unit
-                consumption
-            </div>
-            <div ng-if="service.serviceRate.rateData.ProgressiveRateData.rates.length>0" >
-                <div data-ng-repeat="ratePrice in service.zippedRates" >
-                    <div data-ng-if="$index==0">Up to {{::ratePrice.rate}} - {{::ratePrice.price.amount}}&nbsp;{{::ratePrice.price.currency}} per unit consumption</div>
-                    <div data-ng-if="$index>0" >From {{::ratePrice.previousRate.rate}} to {{::ratePrice.rate}} - {{::ratePrice.price.amount}}&nbsp;{{::ratePrice.price.currency}}
-                        per unit consumption
-                    </div>
+<div data-ng-if="services.length">
+    <p ><a href="" data-ui-sref="main.place.serviceAdd( place.id )" >Add a Service</a> </p>
+    <table class="table table-hover table-condensed year-bills">
+        <thead>
+        <tr>
+            <th colspan="2">Title</th>
+            <th>Description</th>
+            <th>Active Rate Info</th>
+            <th>Active Since</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="service in services">
+            <td>{{::service.title}}</td>
+            <td><a href="" data-ui-sref="main.place.serviceEdit( { placeId: place.id, serviceId: service.id } )"
+                   class="add-bills pull-left"><i class="fa fa-wrench"></i></a></td>
+            <td>{{::service.description}}</td>
+            <td data-ng-if="service.serviceRate.rateData.ManualPriceRateData">Manual price input</td>
+            <td data-ng-if="service.serviceRate.rateData.FixedPriceRateData">Fixed amount, monthly price:
+                {{::service.serviceRate.rateData.FixedPriceRateData.amountPerMonth.amount}}&nbsp;{{::service.serviceRate.rateData.FixedPriceRateData.amountPerMonth.currency}}
+            </td>
+            <td data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
+                <div ng-if="service.serviceRate.rateData.ProgressiveRateData.rates.length==0">
+                    Rate is: {{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.amount}}&nbsp;{{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.currency}}
+                    per unit
+                    consumption
                 </div>
-                Exceeding amount rate is: {{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.amount}}&nbsp;{{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.currency}}
-                per unit consumption
-            </div>
-        </td>
-        <td>{{::service.serviceRate.activeFromDate|date:"short"}}</td>
-    </tr>
-    </tbody>
-</table>
+                <div ng-if="service.serviceRate.rateData.ProgressiveRateData.rates.length>0">
+                    <div data-ng-repeat="ratePrice in service.zippedRates">
+                        <div data-ng-if="$index==0">Up to {{::ratePrice.rate}} - {{::ratePrice.price.amount}}&nbsp;{{::ratePrice.price.currency}}
+                            per unit consumption
+                        </div>
+                        <div data-ng-if="$index>0">From {{::ratePrice.previousRate.rate}} to {{::ratePrice.rate}} -
+                            {{::ratePrice.price.amount}}&nbsp;{{::ratePrice.price.currency}}
+                            per unit consumption
+                        </div>
+                    </div>
+                    Exceeding amount rate is:
+                    {{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.amount}}&nbsp;{{::service.serviceRate.rateData.ProgressiveRateData.exceedingPrice.currency}}
+                    per unit consumption
+                </div>
+            </td>
+            <td>{{::service.serviceRate.activeFromDate|date:"short"}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 <div data-ng-if="!services.length">
     <p class="text-center">There were no services created. <a href="" data-ui-sref="main.place.serviceAdd( place.id )" >Add a Service</a> </p>

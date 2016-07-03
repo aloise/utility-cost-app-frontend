@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and components
 var Application =
     angular.
-        module('myApp', [ 'ui.router', "ngCookies" ]).
+        module('myApp', [ 'ui.router', "ngCookies", "angucomplete-alt" ]).
         config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider, $locationProvider) {
             $urlRouterProvider.otherwise("/login");
             $stateProvider
@@ -70,6 +70,11 @@ var Application =
                     url:"/services",
                     templateUrl: "pages/services.html",
                     controller: "ServicesController"
+                })
+                .state('main.place.serviceAdd',{
+                    url:"/services/add",
+                    templateUrl: "pages/serviceAdd.html",
+                    controller: "ServiceAddController"
                 })
                 .state('main.place.serviceEdit',{
                     url:"/services/:serviceId",
