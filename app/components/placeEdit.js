@@ -5,11 +5,11 @@
 Application.controller("PlaceEditController", ["$scope", "$http", "$state", "$stateParams", "$timeout", "place", "services", "settings", "globalStats", "places",
     function ($scope, $http, $state, $stateParams, $timeout, placeData, servicesData, settings, globalStatsData, placesData) {
 
-
         $scope.place = placeData.data.place;
 
         $scope.placeFormData = angular.copy( placeData.data.place );
-
+        
+        $scope.currencies = _.values(settings.currencies);
 
         $scope.save = function(){
 

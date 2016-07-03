@@ -6,6 +6,8 @@
 Application.controller("PlaceAddController", ["$scope", "$http", "$state", "$stateParams", "$timeout", "settings", "globalStats", "places",
     function($scope, $http, $state, $stateParams, $timeout, settings, globalStats, placesData){
 
+        $scope.currencies = _.values(settings.currencies);
+
         $scope.placeFormData = {
             isDeleted: false
         };

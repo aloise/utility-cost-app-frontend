@@ -2,6 +2,11 @@ Application.constant("settings", {
     baseURL: "http://localhost:9008",
 
     currencies: {
+        "RUB": {
+            "symbol": "RUB",
+            "name": "Russian Ruble",
+            "code": "RUB"
+        },
         "USD": {
             "symbol": "$",
             "name": "US Dollar",
@@ -461,11 +466,6 @@ Application.constant("settings", {
             "symbol": "din.",
             "name": "Serbian Dinar",
             "code": "RSD"
-        },
-        "RUB": {
-            "symbol": "RUB",
-            "name": "Russian Ruble",
-            "code": "RUB"
         },
         "RWF": {
             "symbol": "RWF",
