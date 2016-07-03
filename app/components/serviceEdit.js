@@ -14,6 +14,9 @@ Application.controller("ServiceEditController", ["$scope", "$http", "$state", "$
         ];
 
 
+        var placeCurrency = placeData.data.place.currency;
+        $scope.placeCurrency = placeCurrency;
+
 
 
         $scope.service = angular.copy( _.findWhere( servicesData.data.services, { id: parseInt( $stateParams.serviceId ) } ) );
@@ -56,7 +59,7 @@ Application.controller("ServiceEditController", ["$scope", "$http", "$state", "$
 
             $scope.serviceRateData.rates.push({
                 rate: minRate ? minRate.rate : 0,
-                price: { amount: 0, currency: "USD" }
+                price: { amount: 0, currency: placeCurrency }
             });
         };
 
@@ -72,18 +75,19 @@ Application.controller("ServiceEditController", ["$scope", "$http", "$state", "$
 
             switch( $scope.serviceRateType ) {
                 case "ManualPriceRateData" :
-                    data = { amount: { currency: "USD", amount: 0 } };
+                    data = { amount: { currency: placeCurrency, amount: 0 } };
                     break;
 
                 case "FixedPriceRateData" :
                     data = $scope.serviceRateData;
-                    data.amountPerMonth.currency = "USD";
+                    data.amountPerMonth.currency = placeCurrency;
                     break;
 
                 case "ProgressiveRateData" :
                     data.rates = _.map( $scope.serviceRateData.rates, function(item){ return item.rate } ) ;
                     data.prices = _.map( $scope.serviceRateData.rates, function(item){ return item.price } ) ;
                     data.exceedingPrice = $scope.serviceRateData.exceedingPrice;
+                    data.exceedingPrice.currency = placeCurrency;
                     break;
             }
 
