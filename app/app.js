@@ -75,6 +75,16 @@ var Application =
                     url:"/services/:serviceId",
                     templateUrl: "pages/serviceEdit.html",
                     controller: "ServiceEditController"
+                })
+                .state('main.place.edit',{
+                    url:"/edit",
+                    templateUrl: "pages/placeEdit.html",
+                    controller: "PlaceEditController"
+                })
+                .state('main.placeAdd',{
+                    url:"/place/add",
+                    templateUrl: "pages/placeEdit.html",
+                    controller: "PlaceAddController"
                 });
     }]).run(["$rootScope", "$state", "$cookieStore", "$http", function ($rootScope, $state, $cookieStore, $http) {
         $rootScope.globals = $cookieStore.get("globals") || {};
