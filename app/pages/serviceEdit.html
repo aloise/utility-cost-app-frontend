@@ -3,7 +3,7 @@
         <h2>
             <a data-ui-sref="main.place.review( { placeId: place.id } )"  >{{::place.title}}</a> &raquo;
             <a data-ui-sref="main.place.services( { placeId: place.id } )"  >Active Services</a> &raquo;
-            {{::service.title }}
+            {{ service.title }}
         </h2>
 
         <span class="text-muted"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;{{::place.country}}, {{::place.state}}, {{::place.city}}, {{::place.address}} - {{::place.zip}}</span>
@@ -12,14 +12,14 @@
 </div>
 
 
-<form>
+<form novalidate>
     <div class="form-group">
         <label>Title</label>
-        <input type="text" data-ng-required="true" data-ng-model="service.title" class="form-control" placeholder="Title">
+        <input type="text" data-ng-required="true" data-ng-model="serviceFormData.title" class="form-control" placeholder="Title">
     </div>
     <div class="form-group">
         <label>Description</label>
-        <textarea data-ng-model="service.description" class="form-control" placeholder="Description" rows="5"></textarea>
+        <textarea data-ng-model="serviceFormData.description" class="form-control" placeholder="Description" rows="5"></textarea>
     </div>
     <div class="form-group">
         <label>Rate Type</label>
@@ -28,33 +28,42 @@
     <div class="form-group" data-ng-if="serviceRateType == 'FixedPriceRateData'">
         <label>Fixed Rate Amount</label>
         <div>
-            <input data-ng-required="true" type="number" data-ng-model="serviceRateData.amountPerMonth.amount" class="form-control" placeholder="Amount" >
+            <input data-ng-required="true" type="number" data-ng-min="0" data-ng-model="serviceRateData.amountPerMonth.amount" class="form-control" placeholder="Amount" >
         </div>
     </div>
     <div class="form-group" data-ng-if="serviceRateType == 'ProgressiveRateData'">
         <label>Rate Info</label>
         <div class="row">
             <div class="col-sm-offset-1 col-xs-12 col-sm-11">
-
-                <div class="row" data-ng-repeat="rateData in serviceRateData.rates">
-                    <div class="col-xs-12 col-sm-2"><input data-ng-model="rateData.rate" class="form-control" placeholder="Unit of consumption limit"></div>
-                    <div class="col-xs-12 col-sm-10"><input data-ng-model="rateData.price.amount" class="form-control" placeholder="Price per unit"></div>
+                <div class="row form-group" data-ng-repeat="rateData in serviceRateData.rates">
+                    <div class="col-xs-12 col-sm-2">
+                        <label data-ng-if="$index == 0">Unit Limit</label>
+                        <input data-ng-model="rateData.rate" type="number" data-ng-min=" $index ? serviceRateData.rates[$index-1].rate : 0 " class="form-control" placeholder="Unit of consumption limit">
+                    </div>
+                    <div class="col-xs-12 col-sm-9">
+                        <label data-ng-if="$index == 0">Price Per Unit</label>
+                        <input data-ng-model="rateData.price.amount"  data-ng-min="0" type="number" class="form-control" placeholder="Price per unit">
+                    </div>
+                    <div class="col-xs-12 col-sm-1">
+                        <label data-ng-if="$index == 0">Remove</label>
+                        <a href="" data-ng-click="removeRateRowAt( $index )">Remove</a>
+                    </div>
+                    <br>
+                </div>
+                <div class="row form-group" >
+                    <div class="col-xs-12"><a href="" data-ng-click="addRateRow()">Add more unit limit rows</a></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12 col-sm-2 table-row-exceeding-price"><label>Exceeding Price</label></div>
-                    <div class="col-xs-12 col-sm-10"><input data-ng-required="true" data-ng-model="serviceRateData.exceedingPrice.amount" class="form-control" placeholder="Amount"></div>
+                    <div class="col-xs-12">
+                        <label>Exceeding Price</label>
+                        <input data-ng-required="true"  data-ng-min="0" type="number" data-ng-model="serviceRateData.exceedingPrice.amount" class="form-control" placeholder="Amount">
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
-
-    <div class="checkbox">
-        <label>
-            <input type="checkbox"> Check me out
-        </label>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <hr>
+    <button type="submit" class="btn btn-success" data-ng-click="updateServiceRate()">Update</button>
 </form>
 
 
