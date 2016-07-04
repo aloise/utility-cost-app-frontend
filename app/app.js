@@ -12,6 +12,11 @@ var Application =
                     templateUrl: "pages/login.html",
                     controller: "LoginController"
                 })
+                .state('signup', {
+                    url: "/signup",
+                    templateUrl: "pages/signup.html",
+                    controller: "SignupController"
+                })
                 .state("main", {
                     abstract: true,
                     templateUrl: "pages/main.html",
@@ -106,7 +111,8 @@ var Application =
         }
 
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams, options) {
-            if (toState.name != "login" && !$rootScope.globals.user) {
+            if (toState.name != "login" && toState.name != "signup" && !$rootScope.globals.user) {
+                console.log("unauth transition to state", toState.name);
                 event.preventDefault();
                 $state.go("login");
             }
