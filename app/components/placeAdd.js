@@ -19,6 +19,7 @@ Application.controller("PlaceAddController", ["$scope", "$http", "$state", "$sta
                     $scope.placeFormData = response.data.place;
 
                     placesData.data.places.push( $scope.placeFormData );
+                    $state.go("main.place.review", {placeId:$scope.placeFormData.id});
 
                 },
                 function failure(){

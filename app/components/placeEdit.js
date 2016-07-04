@@ -36,5 +36,20 @@ Application.controller("PlaceEditController", ["$scope", "$http", "$state", "$st
 
         };
 
+        $scope.delete = function () {
+            bootbox.confirm({
+                title: "'" + $scope.place.title + "' place delete confirmation",
+                message: "Are you sure want to delete this place?",
+                callback: function (decision) {
+                    if (decision) {
+                        $http.delete(settings.baseURL + "/api/places/" + $scope.place.id)
+                            .then(function (response) {
+                                $state.transitionTo("main.dashboard", {}, {reload: true});
+                            });
+                    }
+                }
+            });
+        };
+
     }
 ]);
