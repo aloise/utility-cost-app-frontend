@@ -18,8 +18,19 @@ Application.controller("ServiceEditController", ["$scope", "$http", "$state", "$
         $scope.placeCurrency = placeCurrency;
 
 
+        function getCurrentService() {
+            if($stateParams.serviceId) {
+                return angular.copy(_.findWhere(servicesData.data.services, {id: parseInt($stateParams.serviceId)}));
+            }else{
+                return {
+                    area:"",
+                    isDeleted: false,
+                    createdByUserId: 0
+                };
+            }
+        }
 
-        $scope.service = angular.copy( _.findWhere( servicesData.data.services, { id: parseInt( $stateParams.serviceId ) } ) );
+        $scope.service = getCurrentService();
 
         $scope.serviceFormData = angular.copy( $scope.service );
 
@@ -30,6 +41,8 @@ Application.controller("ServiceEditController", ["$scope", "$http", "$state", "$
         initFormData( $scope.service.serviceRate );
 
         function initFormData( serviceRate ) {
+
+            if(!serviceRate) return;
 
             $scope.serviceRateType = _.keys( serviceRate.rateData )[0];
 
@@ -66,6 +79,71 @@ Application.controller("ServiceEditController", ["$scope", "$http", "$state", "$
         $scope.removeRateRowAt = function (index) {
 
             $scope.serviceRateData.rates.splice( index, 1 );
+
+        };
+
+        $scope.createService = function () {
+            var servicePostData = angular.copy($scope.serviceFormData);
+            delete servicePostData.rateData;
+            $http.post(settings.baseURL + "/api/services", servicePostData).then(
+                function serviceSuccessCallback(serviceData) {
+                    var data = {};
+                    var service = serviceData.data.service;
+
+                    $http.post(settings.baseURL + "/api/places/" + $scope.place.id + "/services/" + service.id, {});
+
+                    switch ($scope.serviceRateType) {
+                        case "ManualPriceRateData" :
+                            data = {amount: {currency: placeCurrency, amount: 0}};
+                            break;
+
+                        case "FixedPriceRateData" :
+                            data = $scope.serviceRateData;
+                            data.amountPerMonth.currency = placeCurrency;
+                            break;
+
+                        case "ProgressiveRateData" :
+                            data.rates = _.map($scope.serviceRateData.rates, function (item) {
+                                return item.rate
+                            });
+                            data.prices = _.map($scope.serviceRateData.rates, function (item) {
+                                return item.price
+                            });
+                            data.exceedingPrice = $scope.serviceRateData.exceedingPrice;
+                            data.exceedingPrice.currency = placeCurrency;
+                            break;
+                    }
+
+                    var postRateData = {};
+                    postRateData[$scope.serviceRateType] = data;
+
+                    var serviceRateData = {
+                        serviceId: service.id,
+                        isActive: true,
+                        activeFromDate: new Date(),
+                        rateData: postRateData,
+                        isDeleted: false
+                    };
+
+
+                    $http.post(settings.baseURL + "/api/services/" + service.id + "/rates/update_active", serviceRateData).then(function successCallback(serviceRateData) {
+
+                        $http.get(settings.baseURL + "/api/services/" + service.id)
+                            .then(function (response) {
+                                servicesData.data.services.push(response.data.service);
+                                $state.go("main.place.services", {placeId: $scope.place.id});
+                            })
+
+                    }, function errorCallback(response) {
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                    });
+
+                },
+                function serviceErrorCallback() {
+                    // service failure
+                }
+            );
 
         };
 

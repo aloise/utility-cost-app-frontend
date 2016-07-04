@@ -33,7 +33,7 @@ var Application =
                 })
                 .state('main.place',{
                     abstract: true,
-                    template: "<ui-view/>",
+                    template: "<ui-view/><div ui-view='additionalView'></div>",
                     resolve : {
                         place: function ($http, settings, $stateParams) {
                             return $http({method: 'GET', url: settings.baseURL + "/api/places/" + $stateParams.placeId});
@@ -73,8 +73,16 @@ var Application =
                 })
                 .state('main.place.serviceAdd',{
                     url:"/services/add",
-                    templateUrl: "pages/serviceAdd.html",
-                    controller: "ServiceAddController"
+                    views:{
+                        "additionalView":{
+                            templateUrl: "pages/serviceEdit.html",
+                            controller: "ServiceEditController"
+                        },
+                        "":{
+                            templateUrl: "pages/serviceAdd.html",
+                            controller: "ServiceAddController"
+                        }
+                    }
                 })
                 .state('main.place.serviceEdit',{
                     url:"/services/:serviceId",
