@@ -13,17 +13,15 @@
     <table class="table table-hover table-condensed year-bills">
         <thead>
         <tr>
-            <th colspan="2">Title</th>
+            <th>Title</th>
             <th>Description</th>
             <th>Active Rate Info</th>
-            <th>Active Since</th>
+            <th colspan="2">Active Since</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="service in services">
             <td>{{::service.title}}</td>
-            <td><a href="" data-ui-sref="main.place.serviceEdit( { placeId: place.id, serviceId: service.id } )"
-                   class="add-bills pull-left"><i class="fa fa-wrench"></i></a></td>
             <td>{{::service.description}}</td>
             <td data-ng-if="service.serviceRate.rateData.ManualPriceRateData">Manual price input</td>
             <td data-ng-if="service.serviceRate.rateData.FixedPriceRateData">Fixed amount, monthly price:
@@ -50,7 +48,14 @@
                     per unit consumption
                 </div>
             </td>
-            <td>{{::service.serviceRate.activeFromDate|date:"short"}}</td>
+            <td style="width: 135px">{{::service.serviceRate.activeFromDate|date:"short"}}</td>
+            <td style="width: 100px">
+                <div class="show-on-hover">
+                    <a href="" class="btn btn-default btn-xs"
+                       data-ui-sref="main.place.serviceEdit( { placeId: place.id, serviceId: service.id } )">Edit</a>
+                    <button class="btn btn-danger btn-xs" data-ng-click="detachService(service)">Detach</button>
+                </div>
+            </td>
         </tr>
         </tbody>
     </table>

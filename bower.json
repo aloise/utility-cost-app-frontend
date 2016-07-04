@@ -17,6 +17,8 @@
     "underscore": "^1.8.3",
     "moment": "^2.13.0",
     "angucomplete-alt": "^2.4.1",
-    "toastr": "^2.1.2"
+    "toastr": "^2.1.2",
+    "angular-dialog-service": "^5.3.0",
+    "bootbox.js": "bootbox#^4.4.0"
   }
 }

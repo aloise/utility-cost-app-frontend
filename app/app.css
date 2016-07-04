@@ -59,6 +59,10 @@ body{
     .year-bills tr:hover a.add-bills { visibility: visible;}
 
 
+tr .show-on-hover {visibility: hidden;}
+  tr:hover .show-on-hover {visibility: visible;}
+
+
 /* form validation styles */
 
 input.ng-invalid.ng-dirty {
