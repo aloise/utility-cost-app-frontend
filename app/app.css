@@ -55,8 +55,10 @@ body{
 }
 
 .year-bills {}
-  .year-bills a.add-bills { visibility: hidden;}
-    .year-bills tr:hover a.add-bills { visibility: visible;}
+  .year-bills .add-bills { visibility: hidden;}
+    .year-bills tr:hover .add-bills { visibility: visible;}
+    .year-bills th.months { width: 10em; }
+    .year-bills .edit-bill:hover { color: black; }
 
 
 tr .show-on-hover {visibility: hidden;}
@@ -84,3 +86,7 @@ input.ng-invalid.ng-dirty {
 input.ng-valid {
   border: 1px solid green;
 }
+
+#addBillsForMonthModal table tr.withInputsAlign td.checkbox-column { padding-top:14px; }
+#addBillsForMonthModal table tr.withTextAlign td.checkbox-column { vertical-align: middle; }
+  #addBillsForMonthModal table tr.withTextAlign .fixedPriceRateDataLabel { padding-top:4px; }

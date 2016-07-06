@@ -22,27 +22,33 @@
 <table class="table table-hover table-condensed year-bills">
     <thead>
     <tr>
-        <th colspan="2">Month</th>
+        <th colspan="2" class="months">Month</th>
         <th ng-repeat="service in services">{{::service.title}}</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="monthBillsServices in monthlyGroupedBills">
         <td>{{::monthBillsServices.key}}</td>
-        <td><a href="" data-ng-click="addBillsForMonth(monthBillsServices.month)" class="add-bills"><i class="glyphicon glyphicon-plus-sign"></i></a></td>
+        <td>
+            <button data-ng-click="addBillsForMonth(monthBillsServices.month)" class="add-bills btn btn-default btn-xs">Add&nbsp;a&nbsp;Bill</button>
+        </td>
         <td ng-repeat="billsForService in monthBillsServices.value">
             <table style="width:100%">
                 <tr ng-repeat="bill in billsForService">
-                    <td style="width:6em" data-ng-if="bill.service.serviceRate.rateData.ProgressiveRateData">
-                        {{::bill.readout}}
+                    <td data-ng-if="bill.service.serviceRate.rateData.ProgressiveRateData">
+                        <div>{{::bill.readout}}</div>
                     </td>
                     <td>
-                        <span class="label" data-ng-class="{true:'label-success', false:'label-danger' }[!!bill.paid]">{{::bill.value.amount}}&nbsp;{{::bill.value.currency}}</span>
+                        <span data-ng-click="editBillsForMonth(bill)" style="cursor:pointer" class="label edit-bill" data-ng-class="{true:'label-success', false:'label-danger' }[!!bill.paid]">{{::bill.value.amount}}&nbsp;{{::bill.value.currency}}</span>
                     </td>
                 </tr>
             </table>
         </td>
     </tr>
+
+
+
     </tbody>
 </table>
 
@@ -63,11 +69,12 @@
                             <td>Service</td>
                             <td>Readout</td>
                             <td>Amount to Pay</td>
+                            <td>Is&nbsp;Paid&nbsp;?</td>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr data-ng-repeat="service in addBillsForMonthData.services">
-                            <td style="vertical-align: middle">
+                        <tr data-ng-repeat="service in addBillsForMonthData.services" data-ng-class="{ 'withInputsAlign'  : !service.serviceRate.rateData.FixedPriceRateData , 'withTextAlign' : service.serviceRate.rateData.FixedPriceRateData }">
+                            <td class="checkbox-column">
                                 {{::service.title}}
                             </td>
                             <td>
@@ -80,16 +87,23 @@
                             <td>
                                 <div data-ng-if="service.serviceRate.rateData.ManualPriceRateData">
                                     <input class="form-control" type="number" placeholder="Amount" ng-disabled="service.payed" data-ng-model="service.value.amount" ng-required="true" min="0"
-                                           name="{{::service.title}}Amount">
+                                           name="{{::service.title}} Amount">
                                 </div>
                                 <div data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
                                     <input class="form-control" readonly="readonly" value="Auto Calculated">
                                 </div>
-                                <div data-ng-if="service.serviceRate.rateData.FixedPriceRateData">
+                                <div data-ng-if="service.serviceRate.rateData.FixedPriceRateData" class="fixedPriceRateDataLabel">
+                                    <label>
                                     Fixed amount: {{::service.serviceRate.rateData.FixedPriceRateData.amountPerMonth.amount}}&nbsp;{{::service.serviceRate.rateData.FixedPriceRateData.amountPerMonth.currency}}
+                                    </label>
                                 </div>
 
 
+                            </td>
+                            <td class="checkbox-column">
+                                <div class="text-center" >
+                                        <input type="checkbox" data-ng-model="service.paid" >
+                                </div>
                             </td>
                         </tr>
                         </tbody>

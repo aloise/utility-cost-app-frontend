@@ -68,6 +68,7 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
                 service.value = {};
                 service.month = month;
 
+
                 var startOfMonth = moment($scope.currentYear+"-"+month, "YYYY-MM");
 
                 var lastPayedBillForService = _.chain($scope.bills)
@@ -123,7 +124,8 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
                     readout: serviceBill.readout || 0,
                     value: _.extend({amount:0, currency:"USD"}, serviceBill.value),
                     created: startOfMonth,
-                    isDeleted: false
+                    isDeleted: false,
+                    paid : serviceBill.paid ? new Date() : null
                 };
 
                 $http.post(settings.baseURL + "/api/bills/", billData, {
