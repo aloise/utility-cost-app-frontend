@@ -63,7 +63,7 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
             var billsForMonth = _.findWhere($scope.monthlyGroupedBills, {"key": month + "/" + $scope.currentYear});
             var servicesToPay = _.indexBy(_.map($scope.services, function(s){
                 var service = angular.copy(s);
-                service.payed = false;
+                service.hasBillInMonth = false;
                 service.readout = null;
                 service.value = {};
                 service.month = month;
@@ -88,7 +88,7 @@ Application.controller("PlaceReviewController", ["$scope", "$http", "$state", "$
                 _.forEach(billsForMonth.value, function(bills){
                     var lastBillInMonth = _.last(bills);
                     if(lastBillInMonth && servicesToPay[lastBillInMonth.serviceId]){
-                        servicesToPay[lastBillInMonth.serviceId].payed = true;
+                        servicesToPay[lastBillInMonth.serviceId].hasBillInMonth = true;
                         servicesToPay[lastBillInMonth.serviceId].readout = lastBillInMonth.readout;
                         servicesToPay[lastBillInMonth.serviceId].value = lastBillInMonth.value;
 

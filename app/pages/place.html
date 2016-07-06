@@ -79,14 +79,14 @@
                             </td>
                             <td>
                                 <div data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
-                                    <input class="form-control" type="number" placeholder="Readout" min="{{service.lastPayedBill.readout || 0}}" ng-required="true" ng-disabled="service.payed"
+                                    <input class="form-control" type="number" placeholder="Readout" min="{{service.lastPayedBill.readout || 0}}" ng-required="true" ng-disabled="service.hasBillInMonth"
                                            data-ng-model="service.readout" name="{{::service.title}}Readout" required>
                                     <small data-ng-if="service.lastPayedBill">Latest readout: {{service.lastPayedBill.readout}}</small>
                                 </div>
                             </td>
                             <td>
                                 <div data-ng-if="service.serviceRate.rateData.ManualPriceRateData">
-                                    <input class="form-control" type="number" placeholder="Amount" ng-disabled="service.payed" data-ng-model="service.value.amount" ng-required="true" min="0"
+                                    <input class="form-control" type="number" placeholder="Amount" ng-disabled="service.hasBillInMonth" data-ng-model="service.value.amount" ng-required="true" min="0"
                                            name="{{::service.title}} Amount">
                                 </div>
                                 <div data-ng-if="service.serviceRate.rateData.ProgressiveRateData">
